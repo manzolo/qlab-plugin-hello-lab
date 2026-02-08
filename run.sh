@@ -113,7 +113,7 @@ runcmd:
   - rm -f /etc/motd.raw
   - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
-  - echo "SSH is enabled — connect with: ssh -p 2222 labuser@localhost"
+  - 'echo "SSH is enabled — connect with: ssh -p 2222 labuser@localhost"'
 USERDATA
 
 cat > "$LAB_DIR/meta-data" <<METADATA
