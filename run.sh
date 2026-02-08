@@ -87,25 +87,29 @@ ssh_pwauth: true
 write_files:
   - path: /etc/motd.raw
     content: |
-      \033[1;36m=============================================\033[0m
+      \033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m
         \033[1;32mhello-lab\033[0m — \033[1mQLab Educational VM\033[0m
-      \033[1;36m=============================================\033[0m
+      \033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m
 
         \033[1;33mObjectives:\033[0m
-          - Boot and explore a cloud-init VM
-          - Understand overlay disks (COW)
-          - Connect via SSH and serial console
+          • explore the cloud-init environment
+          • understand overlay disks (COW)
+          • practice SSH and serial console access
 
-        \033[1;33mUseful commands:\033[0m
-          \033[0;36mcat /var/log/cloud-init-output.log\033[0m  cloud-init log
-          \033[0;36lsblk\033[0m                              disk layout
-          \033[0;36mdf -h\033[0m                              disk usage
-          \033[0;36mfree -h\033[0m                            memory usage
+        \033[1;33mSystem Info:\033[0m
+          \033[0;32mlsblk\033[0m             list block devices
+          \033[0;32mdf -h\033[0m              disk space usage
+          \033[0;32mfree -h\033[0m            memory usage
+          \033[0;32mip addr\033[0m            network interfaces
+          \033[0;32muptime\033[0m             system uptime
 
-        \033[1;33mCredentials:\033[0m  \033[1mlabuser\033[0m / \033[1mlabpass\033[0m
-        \033[1;33mExit:\033[0m        type '\033[1mexit\033[0m'
+        \033[1;33mCloud-init Logs:\033[0m
+          \033[0;32mcat /var/log/cloud-init-output.log\033[0m
 
-      \033[1;36m=============================================\033[0m
+        \033[1;33mCredentials:\033[0m  \033[1;36mlabuser\033[0m / \033[1;36mlabpass\033[0m
+        \033[1;33mExit:\033[0m         type '\033[1;31mexit\033[0m'
+
+      \033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m
 
 
 runcmd:
