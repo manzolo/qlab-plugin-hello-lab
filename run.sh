@@ -82,7 +82,35 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 ssh_pwauth: true
+write_files:
+  - path: /etc/motd
+    content: |
+      \033[1;36m=============================================\033[0m
+        \033[1;32mhello-lab\033[0m — \033[1mQLab Educational VM\033[0m
+      \033[1;36m=============================================\033[0m
+
+        \033[1;33mObjectives:\033[0m
+          - Boot and explore a cloud-init VM
+          - Understand overlay disks (COW)
+          - Connect via SSH and serial console
+
+        \033[1;33mUseful commands:\033[0m
+          \033[0;36mcat /var/log/cloud-init-output.log\033[0m  cloud-init log
+          \033[0;36mlsblk\033[0m                              disk layout
+          \033[0;36mdf -h\033[0m                              disk usage
+          \033[0;36mfree -h\033[0m                            memory usage
+
+        \033[1;33mCredentials:\033[0m  \033[1mlabuser\033[0m / \033[1mlabpass\033[0m
+        \033[1;33mExit:\033[0m        type '\033[1mexit\033[0m'
+
+      \033[1;36m=============================================\033[0m
+
 runcmd:
+  - chmod -x /etc/update-motd.d/*
+  - sed -i 's/^#\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config
+  - sed -i 's/^session.*pam_motd.*/# &/' /etc/pam.d/sshd
+  - printf '%b\n' "$(cat /etc/motd)" > /etc/motd
+  - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
   - echo "SSH is enabled — connect with: ssh -p 2222 labuser@localhost"
 USERDATA
