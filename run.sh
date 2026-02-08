@@ -116,7 +116,7 @@ runcmd:
   - chmod -x /etc/update-motd.d/*
   - sed -i 's/^#\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config
   - sed -i 's/^session.*pam_motd.*/# &/' /etc/pam.d/sshd
-  - printf '%b' "$(cat /etc/motd.raw)" > /etc/motd
+  - printf '%b\n' "$(cat /etc/motd.raw)" > /etc/motd
   - rm -f /etc/motd.raw
   - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
