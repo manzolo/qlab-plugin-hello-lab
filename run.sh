@@ -72,7 +72,7 @@ echo "    - user-data: defines users, packages, SSH config"
 echo "    - meta-data: instance identification"
 echo ""
 
-cat > "$LAB_DIR/user-data" <<'USERDATA'
+cat > "$LAB_DIR/user-data" <<USERDATA
 #cloud-config
 hostname: hello-lab
 users:
@@ -116,7 +116,7 @@ runcmd:
   - rm -f /etc/motd.raw
   - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
-  - 'echo "SSH is enabled — connect with: ssh -p 2222 labuser@localhost"'
+  - 'echo "SSH is enabled — connect with: qlab shell hello-lab"'
 USERDATA
 
 cat > "$LAB_DIR/meta-data" <<METADATA
