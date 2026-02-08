@@ -83,7 +83,7 @@ users:
     shell: /bin/bash
 ssh_pwauth: true
 write_files:
-  - path: /etc/motd
+  - path: /etc/motd.raw
     content: |
       \033[1;36m=============================================\033[0m
         \033[1;32mhello-lab\033[0m — \033[1mQLab Educational VM\033[0m
@@ -109,7 +109,8 @@ runcmd:
   - chmod -x /etc/update-motd.d/*
   - sed -i 's/^#\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config
   - sed -i 's/^session.*pam_motd.*/# &/' /etc/pam.d/sshd
-  - printf '%b\n' "$(cat /etc/motd)" > /etc/motd
+  - printf '%b' "$(cat /etc/motd.raw)" > /etc/motd
+  - rm -f /etc/motd.raw
   - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
   - echo "SSH is enabled — connect with: ssh -p 2222 labuser@localhost"
