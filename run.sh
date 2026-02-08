@@ -72,7 +72,7 @@ echo "    - user-data: defines users, packages, SSH config"
 echo "    - meta-data: instance identification"
 echo ""
 
-cat > "$LAB_DIR/user-data" <<USERDATA
+cat > "$LAB_DIR/user-data" <<'USERDATA'
 #cloud-config
 hostname: hello-lab
 users:
@@ -82,7 +82,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     ssh_authorized_keys:
-      - "${QLAB_SSH_PUB_KEY:-}"
+      - "__QLAB_SSH_PUB_KEY__"
 ssh_pwauth: true
 write_files:
   - path: /etc/motd.raw
@@ -98,7 +98,7 @@ write_files:
 
         \033[1;33mUseful commands:\033[0m
           \033[0;36mcat /var/log/cloud-init-output.log\033[0m  cloud-init log
-          \033[0;36mlsblk\033[0m                              disk layout
+          \033[0;36lsblk\033[0m                              disk layout
           \033[0;36mdf -h\033[0m                              disk usage
           \033[0;36mfree -h\033[0m                            memory usage
 
@@ -110,14 +110,17 @@ write_files:
 
 runcmd:
   - chmod -x /etc/update-motd.d/*
-  - "sed -i 's/^#\\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config"
-  - "sed -i 's/^session.*pam_motd.*/# &/' /etc/pam.d/sshd"
-  - printf '%b' "\$(cat /etc/motd.raw)" > /etc/motd
+  - sed -i 's/^#\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config
+  - sed -i 's/^session.*pam_motd.*/# &/' /etc/pam.d/sshd
+  - printf '%b' "$(cat /etc/motd.raw)" > /etc/motd
   - rm -f /etc/motd.raw
   - systemctl restart sshd
   - echo "=== hello-lab VM is ready! ==="
   - 'echo "SSH is enabled — connect with: qlab shell hello-lab"'
 USERDATA
+
+# Inject the SSH public key into user-data
+sed -i "s|__QLAB_SSH_PUB_KEY__|${QLAB_SSH_PUB_KEY:-}|g" "$LAB_DIR/user-data"
 
 cat > "$LAB_DIR/meta-data" <<METADATA
 instance-id: hello-lab-001
