@@ -81,6 +81,8 @@ users:
     lock_passwd: false
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
+    ssh_authorized_keys:
+      - "${QLAB_SSH_PUB_KEY:-}"
 ssh_pwauth: true
 write_files:
   - path: /etc/motd.raw
