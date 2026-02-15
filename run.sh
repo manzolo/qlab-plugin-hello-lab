@@ -4,7 +4,6 @@
 set -euo pipefail
 
 PLUGIN_NAME="hello-lab"
-SSH_PORT=2222
 
 echo "============================================="
 echo "  hello-lab: Boot a VM with cloud-init + SSH"
@@ -190,10 +189,10 @@ info "Step 5: Starting VM in background"
 echo ""
 echo "  The VM will run in background with:"
 echo "    - Serial output logged to .qlab/logs/$PLUGIN_NAME.log"
-echo "    - SSH access on port $SSH_PORT"
+echo "    - SSH access on a dynamically allocated port"
 echo ""
 
-start_vm "$OVERLAY_DISK" "$CIDATA_ISO" "$MEMORY" "$PLUGIN_NAME" "$SSH_PORT"
+start_vm "$OVERLAY_DISK" "$CIDATA_ISO" "$MEMORY" "$PLUGIN_NAME" auto
 
 echo ""
 echo "============================================="
