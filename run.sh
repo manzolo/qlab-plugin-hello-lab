@@ -74,6 +74,7 @@ echo ""
 cat > "$LAB_DIR/user-data" <<'USERDATA'
 #cloud-config
 hostname: hello-lab
+package_update: true
 users:
   - name: labuser
     plain_text_passwd: labpass
